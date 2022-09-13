@@ -1,0 +1,54 @@
+# save_data is where the necessary objects will be written
+save_data: /path/to/save/data
+
+# Filter long examples
+
+# Data definition
+data:
+    corpus_1:
+        path_src: /path/to/expand_asm.txt
+        path_tgt: /path/to/expand_ir.txt
+        weight: 1
+    corpus_2:
+        path_src: /path/to/eot_asm_train.txt
+        path_tgt: /path/to/eot_ir_train.txt
+        weight: 10
+
+    valid:
+        path_src: /path/to/eot_asm_vali.txt
+        path_tgt: /path/to/eot_ir_vali.txt
+
+src_vocab: /path/to/srcvocab.txt
+tgt_vocab: /path/to/tgtvocab.txt
+
+overwrite: False
+save_model: /path/to/save/model
+
+# Model options
+train_steps: 30000
+save_checkpoint_steps: 5000
+encoder_type: ggnn
+layers: 2
+decoder_type: rnn
+learning_rate: 0.05
+start_decay_steps: 5000
+learning_rate_decay: 0.8
+global_attention: general
+batch_size: 32
+# src_ggnn_size is larger than vocab plus features to allow one-hot settings
+src_ggnn_size: 100
+# src_word_vec_size less than rnn_size allows rnn learning during GGNN steps
+src_word_vec_size: 16
+# Increase tgt_word_vec_size, rnn_size, and state_dim together
+# to provide larger GGNN embeddings and larger decoder RNN
+tgt_word_vec_size: 64
+rnn_size: 64
+state_dim: 64
+bridge: true
+world_size: 1
+gpu_ranks: [0]
+n_edge_types: 2
+# Increasing n_steps slows model computation but allows information
+# to be aggregated over more node hops
+n_steps: 5
+n_node: 30
